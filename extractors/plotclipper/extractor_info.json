@@ -6,7 +6,7 @@
   "author": "Max Burnette",
   "contributors": [],
   "contexts": [],
-  "repository": {"repType": "git", "repUrl": "https://github.com/terraref/computing-pipeline.git"},
+  "repository": [{"repType": "git", "repUrl": "https://github.com/terraref/computing-pipeline.git"}],
   "process": {
     "dataset": [
       "file.added"

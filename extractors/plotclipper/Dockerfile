@@ -1,15 +1,27 @@
-FROM terraref/terrautils:1.4
+FROM terraref/terrautils:1.5
 MAINTAINER Max Burnette <mburnet2@illinois.edu>
 
 # Install any programs needed
-RUN useradd -u 49044 extractor
+RUN useradd -u 49044 extractor \
+    && mkdir /home/extractor \
+    && mkdir /home/extractor/sites
 
-# Install laser3d science package
-RUN pip install laspy terraref-laser3d
+RUN chown -R extractor /home/extractor \
+    && chgrp -R extractor /home/extractor 
 
 # Install PDAL
 RUN apt-get update \
-    && apt-get install -y pdal
+    && apt-get install -y pdal \
+        imagemagick \
+        gdal-bin \
+        libgdal-dev
+
+# Install laser3d science package
+RUN pip install --upgrade pip 
+RUN pip install wheel laspy multiprocess plyfile \
+    && pip install --upgrade pyclowder \
+    && pip install --upgrade terraref-laser3d \
+    && pip install --upgrade cryptography
 
 # command to run when starting docker
 COPY entrypoint.sh extractor_info.json *.py /home/extractor/
